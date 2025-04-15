@@ -8,8 +8,8 @@ node_modules/
 dist/
 web-build/
 expo-env.d.ts
-/frontend/node_modules
-/backend/node_modules
+app/node_modules/
+backend/node_modules/
 
 # Native
 *.orig.*
