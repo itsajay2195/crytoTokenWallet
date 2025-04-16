@@ -10,6 +10,7 @@ import {
 interface AppTextInputProps extends TextInputProps {
   label?: string;
   error?: string;
+  containerStyle?: any;
 }
 
 const AppTextInput: React.FC<AppTextInputProps> = ({
@@ -18,7 +19,9 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
   ...props
 }) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, props.containerStyle && props.containerStyle]}
+    >
       {label && <Text style={styles.label}>{label}</Text>}
       <TextInput
         placeholderTextColor="#888"
