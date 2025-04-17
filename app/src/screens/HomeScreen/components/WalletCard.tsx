@@ -2,7 +2,7 @@ import AppText from "@/components/ui/AppText";
 import AppTouchableOpacity from "@/components/ui/AppTouchableOpacity";
 import React from "react";
 import { View, StyleSheet, Alert } from "react-native";
-// import Clipboard from "@react-native-clipboard/clipboard";
+import * as Clipboard from "expo-clipboard";
 
 interface WalletCardProps {
   address: string;
@@ -12,8 +12,8 @@ interface WalletCardProps {
 const WalletCard: React.FC<WalletCardProps> = ({ address, balance }) => {
   const shortAddress = `${address.slice(0, 6)}...${address.slice(-4)}`;
 
-  const handleCopy = () => {
-    // Clipboard.setString(address);
+  const handleCopy = async () => {
+    await Clipboard.setStringAsync("hello world");
     Alert.alert("Copied", "Wallet address copied to clipboard");
   };
 
