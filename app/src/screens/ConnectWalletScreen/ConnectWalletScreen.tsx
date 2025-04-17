@@ -5,12 +5,23 @@ import AnimationItem from "@/components/ui/LottieAnimation";
 import AppTextInput from "@/components/ui/AppTextInput";
 import AppTouchableOpacity from "@/components/ui/AppTouchableOpacity";
 import { getETHBalance } from "@/services/wallet";
+import { useDispatch } from "react-redux";
+import { updateWalletData } from "@/store/slices/walletSlice";
+import { useSnackBar } from "@/context/SnackBarProvider";
 
-const ConnectWalletScreen = () => {
+const ConnectWalletScreen = ({ navigation }: any) => {
+  const dispatch = useDispatch();
   const [privateKey, setPrivateKey] = useState("");
+  const { triggerSnackBar } = useSnackBar();
 
   const onConnectPRess = useCallback(async () => {
     let result = await getETHBalance(privateKey);
+    if (result?.isValid) {
+      dispatch(updateWalletData(result));
+      navigation?.navigate("Home");
+    } else {
+      triggerSnackBar(result?.message || "Something went wrong");
+    }
   }, [privateKey]);
   return (
     <View style={styles.container}>

@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 type SnackBarContextType = {
   triggerSnackBar: (message: string) => void;
@@ -18,7 +19,11 @@ const SnackBarContext = createContext<SnackBarContextType | undefined>(
 );
 
 export const SnackBarProvider = ({ children }: { children: ReactNode }) => {
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const {
+    showSnackBar: uiSliceSbState,
+    snackbarMessage: uiSliceSnackBarMessage,
+  } = useSelector((state: any) => state.ui);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [snackBarMessage, setSnackBarMessage] = useState<string | null>(null);
 
@@ -38,12 +43,12 @@ export const SnackBarProvider = ({ children }: { children: ReactNode }) => {
     }, 2000); // Automatically dismiss after 3 seconds
   };
 
-  //    useEffect(() => {
-  //      //this UE wil handle the scenario whecn the snackbar is triggered using the uislice action
-  //      if (uiSliceSbState && uiSliceSnackBarMessage) {
-  //        triggerSnackBar(uiSliceSnackBarMessage);
-  //      }
-  //    }, [uiSliceSbState]);
+  useEffect(() => {
+    //this UE wil handle the scenario whecn the snackbar is triggered using the uislice action
+    if (uiSliceSbState && uiSliceSnackBarMessage) {
+      triggerSnackBar(uiSliceSnackBarMessage);
+    }
+  }, [uiSliceSbState]);
 
   useEffect(() => {
     // Cleanup function to avoid memory leaks
