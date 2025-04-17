@@ -30,12 +30,15 @@ export const getETHBalance = async (privateKey: string) => {
     return {
       address: wallet.address,
       balance: ethBalance,
+      isValid: true,
     };
   } catch (error) {
     console.error("Error fetching balance:", error);
     return {
       address: "",
       balance: "0",
+      isValid: false,
+      message: "Error fetching balance:",
     };
   }
 };

@@ -3,11 +3,14 @@ import React from "react";
 import RootNavigation from "@/navigation/RootNavigation";
 import { Provider } from "react-redux";
 import { store } from "./src/store/store";
+import { SnackBarProvider } from "@/context/SnackBarProvider";
 
 const App = () => {
   return (
     <Provider store={store}>
-      <RootNavigation />
+      <SnackBarProvider>
+        <RootNavigation />
+      </SnackBarProvider>
     </Provider>
   );
 };
