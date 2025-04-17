@@ -5,12 +5,16 @@ import AnimationItem from "@/components/ui/LottieAnimation";
 import AppTextInput from "@/components/ui/AppTextInput";
 import AppTouchableOpacity from "@/components/ui/AppTouchableOpacity";
 import { getETHBalance } from "@/services/wallet";
+import { useDispatch } from "react-redux";
+import { updateWalletData } from "@/store/slices/walletSlice";
 
 const ConnectWalletScreen = () => {
+  const dispatch = useDispatch();
   const [privateKey, setPrivateKey] = useState("");
 
   const onConnectPRess = useCallback(async () => {
     let result = await getETHBalance(privateKey);
+    dispatch(updateWalletData(result));
   }, [privateKey]);
   return (
     <View style={styles.container}>
