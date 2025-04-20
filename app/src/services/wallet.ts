@@ -55,9 +55,11 @@ export const sendETH = async (
       "svEoaVYaL6yFL6Yjq9OiETXIVu39pnnf"
     );
     const wallet = new Wallet(privateKey, provider);
-
+    const fromAddress = wallet.address;
+    console.log("From address>>", fromAddress);
     // Create and send transaction
     const tx = await wallet.sendTransaction({
+      from: fromAddress,
       to: toAddress,
       value: parseEther(amountInEth),
     });
@@ -70,6 +72,6 @@ export const sendETH = async (
     return { success: true, txHash: tx.hash };
   } catch (error: any) {
     console.error("Send ETH error:", error);
-    return { success: false, error: error.message || "Unknown error" };
+    return { success: false, error: error.code || "Unknown error" };
   }
 };

@@ -8,6 +8,7 @@ import { getETHBalance } from "@/services/wallet";
 import { useDispatch } from "react-redux";
 import { updateWalletData } from "@/store/slices/walletSlice";
 import { useSnackBar } from "@/context/SnackBarProvider";
+import { setPrivateKey as setPrivateKeyToState } from "../../store/slices/sendTokenSlice";
 
 const ConnectWalletScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
@@ -18,6 +19,8 @@ const ConnectWalletScreen = ({ navigation }: any) => {
     let result = await getETHBalance(privateKey);
     if (result?.isValid) {
       dispatch(updateWalletData(result));
+      dispatch(setPrivateKeyToState(privateKey));
+
       navigation?.navigate("Home");
     } else {
       triggerSnackBar(result?.message || "Something went wrong");
