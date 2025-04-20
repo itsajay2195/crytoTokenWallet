@@ -31,12 +31,7 @@ export default function SendETHScreen({ route }: any) {
     }
 
     setLoading(true);
-    const result = await sendETH(
-      "0xb2B3e4aDB122ee617b25DB49950902E4875682D5",
-      privateKey,
-      toAddress,
-      amount
-    );
+    const result = await sendETH(privateKey, toAddress, amount);
     setLoading(false);
 
     if (result.success) {

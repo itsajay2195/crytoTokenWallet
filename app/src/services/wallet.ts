@@ -45,7 +45,6 @@ export const getETHBalance = async (privateKey: string) => {
 };
 
 export const sendETH = async (
-  fromAddress: string,
   privateKey: string,
   toAddress: string,
   amountInEth: string
