@@ -38,7 +38,7 @@ const RootNavigation = () => {
                 component={ConnectWalletScreen}
               />
               <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="SendToken" component={SendTokensScreen} />
+              <Stack.Screen name="SendTokens" component={SendTokensScreen} />
             </Stack.Navigator>
 
             {/* </UIContainer>
