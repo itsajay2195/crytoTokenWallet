@@ -26,8 +26,8 @@ export const getETHBalance = async (privateKey: string) => {
     const rawBalance = await provider.getBalance(wallet.address);
     const ethBalance = formatEther(rawBalance);
 
-    console.log("Address:", wallet.address);
-    console.log("ETH Balance:", ethBalance);
+    // console.log("Address:", wallet.address);
+    // console.log("ETH Balance:", ethBalance);
 
     return {
       address: wallet.address,
@@ -77,8 +77,14 @@ export const sendETH = async (
   }
 };
 
-export const getTransactions = async (walletAddress: string) => {
+export const getTransactions = async (privateKey: string) => {
   try {
+    const provider = new AlchemyProvider(
+      "sepolia",
+      "svEoaVYaL6yFL6Yjq9OiETXIVu39pnnf"
+    );
+    const wallet = new Wallet(privateKey, provider);
+    const walletAddress = wallet.address;
     const COVALENT_API_KEY = "cqt_rQkrRYYQVB8BYKk3hWHkXXmjjm3D";
     const url = `https://api.covalenthq.com/v1/eth-sepolia/address/${walletAddress}/transactions_v2/?key=${COVALENT_API_KEY}`;
 
