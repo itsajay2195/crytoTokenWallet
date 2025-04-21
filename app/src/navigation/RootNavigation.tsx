@@ -18,7 +18,9 @@ import {
   HOME_SCREEN,
   RECEIVE_TOKENS_SCREEN,
   SEND_TOKENS_SCREEN,
-} from "@/constants/screenConstat";
+  TRANSACTION_HISTORY_SCREEN,
+} from "@/constants/screenConstants";
+import TransactionHistoryScreen from "@/screens/TransactionHistoryScreen/TransactionHistoryScreen";
 
 const Stack = createNativeStackNavigator();
 const RootNavigation = () => {
@@ -52,6 +54,10 @@ const RootNavigation = () => {
               <Stack.Screen
                 name={RECEIVE_TOKENS_SCREEN}
                 component={ReceiveTokens}
+              />
+              <Stack.Screen
+                name={TRANSACTION_HISTORY_SCREEN}
+                component={TransactionHistoryScreen}
               />
             </Stack.Navigator>
 

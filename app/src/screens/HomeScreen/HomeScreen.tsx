@@ -35,6 +35,13 @@ const listData = [
     iconLibrary: "MaterialIcons",
     navigateTo: "ReceiveTokens",
   },
+  {
+    id: 2,
+    title: "View History",
+    iconName: "history",
+    iconLibrary: "MaterialCommunityIcons",
+    navigateTo: "TransactionHistory",
+  },
 ];
 const HomeScreen = ({ navigation }: any) => {
   const { address, balance } = useSelector(
