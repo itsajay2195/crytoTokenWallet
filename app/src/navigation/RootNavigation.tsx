@@ -21,6 +21,7 @@ import {
   TRANSACTION_HISTORY_SCREEN,
 } from "@/constants/screenConstants";
 import TransactionHistoryScreen from "@/screens/TransactionHistoryScreen/TransactionHistoryScreen";
+import ErrorBoundary from "@/HOC/ErrorBoundary";
 
 const Stack = createNativeStackNavigator();
 const RootNavigation = () => {
@@ -33,38 +34,30 @@ const RootNavigation = () => {
             keyboardVerticalOffset={Platform.OS === "ios" ? 24 : 20}
             style={styles.flex1}
           >
-            {/* <ThemeProvider> */}
-            {/* <NetInfoWrapper> */}
-            {/* <ErrorBoundary> */}
-            {/* <UIContainer> */}
-
-            <Stack.Navigator
-              initialRouteName={CONNECT_WALLET_SCREEN}
-              screenOptions={{ headerShown: false }}
-            >
-              <Stack.Screen
-                name={CONNECT_WALLET_SCREEN}
-                component={ConnectWalletScreen}
-              />
-              <Stack.Screen name={HOME_SCREEN} component={HomeScreen} />
-              <Stack.Screen
-                name={SEND_TOKENS_SCREEN}
-                component={SendTokensScreen}
-              />
-              <Stack.Screen
-                name={RECEIVE_TOKENS_SCREEN}
-                component={ReceiveTokens}
-              />
-              <Stack.Screen
-                name={TRANSACTION_HISTORY_SCREEN}
-                component={TransactionHistoryScreen}
-              />
-            </Stack.Navigator>
-
-            {/* </UIContainer>
-                </ErrorBoundary>
-              </NetInfoWrapper>
-            </ThemeProvider> */}
+            <ErrorBoundary>
+              <Stack.Navigator
+                initialRouteName={CONNECT_WALLET_SCREEN}
+                screenOptions={{ headerShown: false }}
+              >
+                <Stack.Screen
+                  name={CONNECT_WALLET_SCREEN}
+                  component={ConnectWalletScreen}
+                />
+                <Stack.Screen name={HOME_SCREEN} component={HomeScreen} />
+                <Stack.Screen
+                  name={SEND_TOKENS_SCREEN}
+                  component={SendTokensScreen}
+                />
+                <Stack.Screen
+                  name={RECEIVE_TOKENS_SCREEN}
+                  component={ReceiveTokens}
+                />
+                <Stack.Screen
+                  name={TRANSACTION_HISTORY_SCREEN}
+                  component={TransactionHistoryScreen}
+                />
+              </Stack.Navigator>
+            </ErrorBoundary>
           </KeyboardAvoidingView>
         </SafeAreaView>
       </SafeAreaProvider>

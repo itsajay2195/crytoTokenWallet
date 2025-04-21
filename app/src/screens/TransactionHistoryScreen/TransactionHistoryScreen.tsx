@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import TransactionListItem from "./components/TransactionListItem";
 import AnimationItem from "@/components/ui/LottieAnimation";
 import { getWalletInstance } from "@/utils/walletUtils";
