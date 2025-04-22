@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface ERCSlice {
   isLoading: boolean;
   amount: number;
+  tokenInfo: any;
   toAddress: string | null;
 }
 
@@ -10,6 +11,7 @@ const initialState = {
   isLoading: false,
   amount: 0,
   toAddress: "",
+  tokenInfo: "",
 };
 
 const sendErcTokenSlice = createSlice({
@@ -28,10 +30,13 @@ const sendErcTokenSlice = createSlice({
     setToAddress: (state, action) => {
       state.toAddress = action.payload;
     },
+    setTokenInfo: (state, action) => {
+      state.tokenInfo = action.payload;
+    },
   },
 });
 
-export const { showLoader, hideLoader, setToAddress, setAmount } =
+export const { showLoader, hideLoader, setToAddress, setAmount, setTokenInfo } =
   sendErcTokenSlice.actions;
 
 export default sendErcTokenSlice.reducer;

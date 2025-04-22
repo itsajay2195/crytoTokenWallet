@@ -6,15 +6,17 @@ import AppTouchableOpacity from "@/components/ui/AppTouchableOpacity";
 import { useDispatch, useSelector } from "react-redux";
 import { useSnackBar } from "@/context/SnackBarProvider";
 import { setAmount, setToAddress } from "@/store/slices/sendErcTokenSlice";
+import { sendERC20Token } from "@/services/wallet";
 
 const SendErcTokensScreen = () => {
   const { triggerSnackBar } = useSnackBar();
-
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const amount = useSelector((state: any) => state.ercTokens.amount);
   const privateKey = useSelector((state: any) => state.sendToken.privateKey);
   const toAddress = useSelector((state: any) => state.ercTokens.toAddress);
-  const loading = useSelector((state: any) => state.ercTokens.isLoading);
+  const tokenInfo = useSelector((state: any) => state.ercTokens.tokenInfo);
+  //   const loading = useSelector((state: any) => state.ercTokens.isLoading);
   const setAmountValue = useCallback((val: string) => {
     dispatch(setAmount(val));
   }, []);
@@ -23,11 +25,31 @@ const SendErcTokensScreen = () => {
     dispatch(setToAddress(val));
   }, []);
 
-  const handleSend = useCallback(() => {}, []);
+  const handleSend = useCallback(async () => {
+    if (!toAddress || !amount) {
+      triggerSnackBar("Please enter both address and amount");
+      return;
+    }
+
+    setLoading(true);
+    const result = await sendERC20Token(
+      privateKey,
+      tokenInfo?.address,
+      toAddress,
+      amount
+    );
+    setLoading(false);
+
+    if (result.success) {
+      triggerSnackBar(`Success ✅, Transaction Hash:${result.txHash}`);
+    } else {
+      triggerSnackBar(`Failed ❌, ${result.error || "Transaction failed"}`);
+    }
+  }, [tokenInfo, toAddress, amount]);
   return (
     <View style={styles.container}>
       <AppText size="lg" weight="bold">
-        Send ETH
+        Send Token
       </AppText>
 
       <AppTextInput
@@ -39,7 +61,7 @@ const SendErcTokensScreen = () => {
       />
 
       <AppTextInput
-        label="Amount (ETH)"
+        label={`"Amount (${tokenInfo?.symbol})`}
         placeholder="e.g. 0.01"
         value={amount}
         onChangeText={setAmountValue}
