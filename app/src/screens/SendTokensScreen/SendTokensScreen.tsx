@@ -32,7 +32,7 @@ export default function SendETHScreen({ route }: any) {
 
   const handleSend = async () => {
     if (!toAddress || !amount) {
-      Alert.alert("Error", "Please enter both address and amount");
+      triggerSnackBar("Please enter both address and amount");
       return;
     }
 
