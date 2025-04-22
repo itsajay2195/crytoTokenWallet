@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface UIState {
   walletData: any;
+  loading: boolean;
 }
 
 const initialState: UIState = {
-  walletData: false,
+  walletData: [],
+  loading: false,
 };
 
 const uiSlice = createSlice({
@@ -15,9 +17,15 @@ const uiSlice = createSlice({
     updateWalletData: (state, action) => {
       state.walletData = action.payload;
     },
+    showLoader: (state) => {
+      state.loading = true;
+    },
+    hideLoader: (state) => {
+      state.loading = false;
+    },
   },
 });
 
-export const { updateWalletData } = uiSlice.actions;
+export const { updateWalletData, showLoader, hideLoader } = uiSlice.actions;
 
 export default uiSlice.reducer;

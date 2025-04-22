@@ -30,7 +30,7 @@ export default function SendETHScreen({ route }: any) {
     };
   }, []);
 
-  const handleSend = async () => {
+  const handleSend = useCallback(async () => {
     if (!toAddress || !amount) {
       triggerSnackBar("Please enter both address and amount");
       return;
@@ -45,7 +45,7 @@ export default function SendETHScreen({ route }: any) {
     } else {
       triggerSnackBar(`Failed ❌, ${result.error || "Transaction failed"}`);
     }
-  };
+  }, [toAddress, amount, privateKey]);
 
   return (
     <View style={styles.container}>

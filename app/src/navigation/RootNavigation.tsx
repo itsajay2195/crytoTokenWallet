@@ -45,7 +45,11 @@ const RootNavigation = () => {
                   name={CONNECT_WALLET_SCREEN}
                   component={ConnectWalletScreen}
                 />
-                <Stack.Screen name={HOME_SCREEN} component={HomeScreen} />
+                <Stack.Screen
+                  name={HOME_SCREEN}
+                  component={HomeScreen}
+                  options={{ gestureEnabled: false }}
+                />
                 <Stack.Screen
                   name={SEND_TOKENS_SCREEN}
                   component={SendTokensScreen}

@@ -10,7 +10,9 @@ interface WalletCardProps {
 }
 
 const WalletCard: React.FC<WalletCardProps> = ({ address, balance }) => {
-  const shortAddress = `${address?.slice(0, 6)}...${address.slice(-4)}`;
+  const shortAddress = address
+    ? `${address?.slice(0, 6)}...${address.slice(-4)}`
+    : "";
 
   const handleCopy = async () => {
     await Clipboard.setStringAsync("hello world");

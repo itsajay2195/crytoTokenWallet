@@ -34,13 +34,8 @@ const ConnectWalletScreen = ({ navigation }: any) => {
     try {
       setLoading(true);
       let result = await getETHBalance(privateKey);
-      let { address } = getWalletInstance(privateKey);
-      let tokensList = await getTokenBalances(address);
       if (result?.isValid) {
-        dispatch(updateWalletData(result));
         dispatch(setPrivateKeyToState(privateKey));
-        dispatch(setTokens(tokensList));
-        // setPrivateKey("");
         navigation?.navigate("Home");
       } else {
         triggerSnackBar(result?.message || "Something went wrong");
