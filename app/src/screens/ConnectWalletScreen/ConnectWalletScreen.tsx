@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React, { useState, useCallback, useEffect } from "react";
 import AppText from "@/components/ui/AppText";
 import AnimationItem from "@/components/ui/LottieAnimation";
@@ -12,31 +12,46 @@ import { setPrivateKey as setPrivateKeyToState } from "../../store/slices/sendTo
 import { getTokenBalances } from "@/services/token";
 import { getWalletInstance } from "@/utils/walletUtils";
 import { setTokens } from "@/store/slices/tokensSlice";
+import { useFocusEffect } from "@react-navigation/native";
 
 const ConnectWalletScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
   const [privateKey, setPrivateKey] = useState("");
+  const [loading, setLoading] = useState(false);
   const { triggerSnackBar } = useSnackBar();
 
+  useFocusEffect(
+    useCallback(() => {
+      // Screen is focused
+      return () => {
+        // Screen is unfocused (navigated away)
+        setPrivateKey("");
+      };
+    }, [])
+  );
+
   const onConnectPRess = useCallback(async () => {
-    let result = await getETHBalance(privateKey);
-    let { address } = getWalletInstance(privateKey);
-    let tokensList = await getTokenBalances(address);
-    if (result?.isValid) {
-      dispatch(updateWalletData(result));
-      dispatch(setPrivateKeyToState(privateKey));
-      dispatch(setTokens(tokensList));
-      navigation?.navigate("Home");
-    } else {
-      triggerSnackBar(result?.message || "Something went wrong");
+    try {
+      setLoading(true);
+      let result = await getETHBalance(privateKey);
+      let { address } = getWalletInstance(privateKey);
+      let tokensList = await getTokenBalances(address);
+      if (result?.isValid) {
+        dispatch(updateWalletData(result));
+        dispatch(setPrivateKeyToState(privateKey));
+        dispatch(setTokens(tokensList));
+        // setPrivateKey("");
+        navigation?.navigate("Home");
+      } else {
+        triggerSnackBar(result?.message || "Something went wrong");
+      }
+    } catch (error) {
+      triggerSnackBar("Something went wrong");
+    } finally {
+      setLoading(false);
     }
   }, [privateKey]);
 
-  useEffect(() => {
-    return () => {
-      setPrivateKey("");
-    };
-  }, []);
   return (
     <View style={styles.container}>
       <AppText style={styles.textInputStyles}>Connect To Your Wallet</AppText>
@@ -60,9 +75,13 @@ const ConnectWalletScreen = ({ navigation }: any) => {
         style={{ marginHorizontal: "10%", opacity: !privateKey ? 0.5 : 1 }}
         disabled={!privateKey}
       >
-        <AppText size="lg" weight="bold" style={{ textAlign: "center" }}>
-          🪙 Connect
-        </AppText>
+        {loading ? (
+          <ActivityIndicator color="#000" />
+        ) : (
+          <AppText size="lg" weight="bold" style={{ textAlign: "center" }}>
+            🪙 Connect
+          </AppText>
+        )}
       </AppTouchableOpacity>
     </View>
   );
