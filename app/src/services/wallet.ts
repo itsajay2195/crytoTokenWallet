@@ -10,6 +10,7 @@ import {
   parseEther,
 } from "ethers";
 import axios from "axios";
+import { COVALENT_API_KEY } from "@env";
 
 export const getETHBalance = async (privateKey: string) => {
   try {
@@ -57,7 +58,6 @@ export const sendETH = async (
     );
     const wallet = new Wallet(privateKey, provider);
     const fromAddress = wallet.address;
-    console.log("From address>>", fromAddress);
     // Create and send transaction
     const tx = await wallet.sendTransaction({
       from: fromAddress,
@@ -85,7 +85,6 @@ export const getTransactions = async (privateKey: string) => {
     );
     const wallet = new Wallet(privateKey, provider);
     const walletAddress = wallet.address;
-    const COVALENT_API_KEY = "cqt_rQkrRYYQVB8BYKk3hWHkXXmjjm3D";
     const url = `https://api.covalenthq.com/v1/eth-sepolia/address/${walletAddress}/transactions_v2/?key=${COVALENT_API_KEY}`;
 
     const res = await axios.get(url);

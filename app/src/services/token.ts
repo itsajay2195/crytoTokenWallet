@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const COVALENT_API_KEY = "cqt_rQkrRYYQVB8BYKk3hWHkXXmjjm3D"; // replace with your key
+import { COVALENT_API_KEY } from "@env";
 
 export const getTokenBalances = async (walletAddress: string) => {
   try {

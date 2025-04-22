@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import AppText from "@/components/ui/AppText";
 import AnimationItem from "@/components/ui/LottieAnimation";
 import AppTextInput from "@/components/ui/AppTextInput";
@@ -22,7 +22,6 @@ const ConnectWalletScreen = ({ navigation }: any) => {
     let result = await getETHBalance(privateKey);
     let { address } = getWalletInstance(privateKey);
     let tokensList = await getTokenBalances(address);
-    console.log("tokenssssList>>>", tokensList);
     if (result?.isValid) {
       dispatch(updateWalletData(result));
       dispatch(setPrivateKeyToState(privateKey));
@@ -32,6 +31,12 @@ const ConnectWalletScreen = ({ navigation }: any) => {
       triggerSnackBar(result?.message || "Something went wrong");
     }
   }, [privateKey]);
+
+  useEffect(() => {
+    return () => {
+      setPrivateKey("");
+    };
+  }, []);
   return (
     <View style={styles.container}>
       <AppText style={styles.textInputStyles}>Connect To Your Wallet</AppText>

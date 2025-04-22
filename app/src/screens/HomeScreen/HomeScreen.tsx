@@ -5,13 +5,14 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import WalletCard from "./components/WalletCard";
 import IConComponent from "../../components/common/IconComponent";
 import { sendETH } from "@/services/wallet";
 import AppText from "@/components/ui/AppText";
 import TokensListItem from "./components/TokensListItem";
+import { useIsFocused } from "@react-navigation/native";
 
 const ListItem = ({ item, onPress }: any) => (
   <TouchableOpacity
@@ -46,6 +47,7 @@ const listData = [
   },
 ];
 const HomeScreen = ({ navigation }: any) => {
+  const isFocused = useIsFocused();
   const { address, balance } = useSelector(
     (state: any) => state.wallet.walletData
   );

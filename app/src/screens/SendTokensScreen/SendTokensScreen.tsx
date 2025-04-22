@@ -4,7 +4,7 @@ import AppTouchableOpacity from "@/components/ui/AppTouchableOpacity";
 import { useSnackBar } from "@/context/SnackBarProvider";
 import { sendETH } from "@/services/wallet";
 import { setAmount, setToAddress } from "@/store/slices/sendTokenSlice";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -24,6 +24,14 @@ export default function SendETHScreen({ route }: any) {
   const setToaddressValue = useCallback((val: string) => {
     dispatch(setToAddress(val));
   }, []);
+
+  useEffect(() => {
+    return () => {
+      setToaddressValue("");
+      setAmountValue("");
+    };
+  }, []);
+
   const handleSend = async () => {
     if (!toAddress || !amount) {
       Alert.alert("Error", "Please enter both address and amount");

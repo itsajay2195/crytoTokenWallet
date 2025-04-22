@@ -3,7 +3,6 @@ import React from "react";
 import AppText from "@/components/ui/AppText";
 
 const TokensListItem = ({ item }: any) => {
-  console.log("item?.log>>", item.logo);
   return (
     <View style={styles.card}>
       <Image
@@ -21,7 +20,7 @@ const TokensListItem = ({ item }: any) => {
           {item.name}
         </AppText>
       </View>
-      <AppText weight="medium">{item.balance.toFixed(2)}</AppText>
+      <AppText weight="medium">{item.balance.toFixed(4)}</AppText>
     </View>
   );
 };
