@@ -4,6 +4,7 @@ import uiReducer from "./slices/uiSlice";
 import walletReducer from "./slices/walletSlice";
 import sendTokenReducer from "./slices/sendTokenSlice";
 import transactions from "./slices/transactionHistorySlice";
+import tokens from "./slices/tokensSlice";
 // const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     wallet: walletReducer,
     sendToken: sendTokenReducer,
     transactions: transactions,
+    tokens: tokens,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false }),
 });

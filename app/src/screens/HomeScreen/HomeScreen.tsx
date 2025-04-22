@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import WalletCard from "./components/WalletCard";
 import IConComponent from "../../components/common/IconComponent";
 import { sendETH } from "@/services/wallet";
+import AppText from "@/components/ui/AppText";
+import TokensListItem from "./components/TokensListItem";
 
 const ListItem = ({ item, onPress }: any) => (
   <TouchableOpacity
@@ -47,6 +49,7 @@ const HomeScreen = ({ navigation }: any) => {
   const { address, balance } = useSelector(
     (state: any) => state.wallet.walletData
   );
+  const tokens = useSelector((state: any) => state.tokens.tokens);
 
   const onPress = useCallback((screenName: string) => {
     navigation?.navigate(screenName);
@@ -57,15 +60,35 @@ const HomeScreen = ({ navigation }: any) => {
     <ListItem item={item} onPress={onPress} />
   );
 
+  const tokenListRenderItem = useCallback(({ item }: any) => {
+    return <TokensListItem item={item} />;
+  }, []);
+
   return (
     <View style={styles.container}>
-      <WalletCard address={address} balance={balance} />
       <FlatList
-        data={listData}
-        numColumns={2}
-        columnWrapperStyle={{ justifyContent: "space-between" }}
-        keyExtractor={(item) => item.id?.toString()}
-        renderItem={renderItem}
+        data={tokens.length === 1 && tokens[0].symbol === "ETH" ? [] : tokens}
+        renderItem={tokenListRenderItem}
+        keyExtractor={(item, index) => index?.toString()}
+        ListHeaderComponent={
+          <>
+            <WalletCard address={address} balance={balance} />
+            <FlatList
+              data={listData}
+              numColumns={2}
+              columnWrapperStyle={{ justifyContent: "space-between" }}
+              keyExtractor={(item) => item.id?.toString()}
+              renderItem={renderItem}
+            />
+          </>
+        }
+        ListEmptyComponent={
+          <AppText align="center" color="#888" style={{ marginTop: 20 }}>
+            You currently only hold ETH. Add some ERC-20 tokens to see them
+            here.
+          </AppText>
+        }
+        nestedScrollEnabled={false}
       />
     </View>
   );

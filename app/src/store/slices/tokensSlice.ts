@@ -1,17 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface TransactionSlice {
+interface TokensSlice {
   isLoading: boolean;
-  transactionHistory: any[] | null;
+  tokens: any[] | null;
 }
 
-const initialState: TransactionSlice = {
+const initialState: TokensSlice = {
   isLoading: false,
-  transactionHistory: [],
+  tokens: [],
 };
 
 const uiSlice = createSlice({
-  name: "transactions",
+  name: "tokens",
   initialState,
   reducers: {
     showTransactionLoader: (state) => {
@@ -20,13 +20,13 @@ const uiSlice = createSlice({
     hideTransactionLoader: (state) => {
       state.isLoading = false;
     },
-    setTransactions: (state, action) => {
-      state.transactionHistory = action.payload;
+    setTokens: (state, action) => {
+      state.tokens = action.payload;
     },
   },
 });
 
-export const { showTransactionLoader, hideTransactionLoader, setTransactions } =
+export const { showTransactionLoader, hideTransactionLoader, setTokens } =
   uiSlice.actions;
 
 export default uiSlice.reducer;
