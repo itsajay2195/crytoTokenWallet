@@ -13,6 +13,10 @@ import { sendETH } from "@/services/wallet";
 import AppText from "@/components/ui/AppText";
 import TokensListItem from "./components/TokensListItem";
 import { useIsFocused } from "@react-navigation/native";
+import {
+  SEND_ERC_TOKENS_SCREEN,
+  SEND_TOKENS_SCREEN,
+} from "@/constants/screenConstants";
 
 const ListItem = ({ item, onPress }: any) => (
   <TouchableOpacity
@@ -62,8 +66,15 @@ const HomeScreen = ({ navigation }: any) => {
     <ListItem item={item} onPress={onPress} />
   );
 
+  const onTokenItemPress = useCallback(({ item }: any) => {
+    if (item.symbol === "ETH") {
+      navigation.navigate(SEND_TOKENS_SCREEN);
+    } else {
+      navigation.navigate(SEND_ERC_TOKENS_SCREEN);
+    }
+  }, []);
   const tokenListRenderItem = useCallback(({ item }: any) => {
-    return <TokensListItem item={item} />;
+    return <TokensListItem item={item} onPress={onTokenItemPress} />;
   }, []);
 
   return (

@@ -2,7 +2,7 @@ import { StyleSheet, Image, View } from "react-native";
 import React from "react";
 import AppText from "@/components/ui/AppText";
 
-const TokensListItem = ({ item }: any) => {
+const TokensListItem = ({ item, onPress }: any) => {
   return (
     <View style={styles.card}>
       <Image

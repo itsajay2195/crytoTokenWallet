@@ -17,11 +17,13 @@ import {
   CONNECT_WALLET_SCREEN,
   HOME_SCREEN,
   RECEIVE_TOKENS_SCREEN,
+  SEND_ERC_TOKENS_SCREEN,
   SEND_TOKENS_SCREEN,
   TRANSACTION_HISTORY_SCREEN,
 } from "@/constants/screenConstants";
 import TransactionHistoryScreen from "@/screens/TransactionHistoryScreen/TransactionHistoryScreen";
 import ErrorBoundary from "@/HOC/ErrorBoundary";
+import SendErcTokensScreen from "@/screens/SendErcTokensScreen/SendErcTokensScreen";
 
 const Stack = createNativeStackNavigator();
 const RootNavigation = () => {
@@ -55,6 +57,10 @@ const RootNavigation = () => {
                 <Stack.Screen
                   name={TRANSACTION_HISTORY_SCREEN}
                   component={TransactionHistoryScreen}
+                />
+                <Stack.Screen
+                  name={SEND_ERC_TOKENS_SCREEN}
+                  component={SendErcTokensScreen}
                 />
               </Stack.Navigator>
             </ErrorBoundary>

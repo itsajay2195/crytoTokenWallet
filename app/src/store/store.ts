@@ -5,6 +5,7 @@ import walletReducer from "./slices/walletSlice";
 import sendTokenReducer from "./slices/sendTokenSlice";
 import transactions from "./slices/transactionHistorySlice";
 import tokens from "./slices/tokensSlice";
+import ercTokens from "./slices/sendErcTokenSlice";
 // const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     sendToken: sendTokenReducer,
     transactions: transactions,
     tokens: tokens,
+    ercTokens: ercTokens,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false }),
 });
