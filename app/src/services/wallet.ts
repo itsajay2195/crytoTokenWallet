@@ -8,6 +8,8 @@ import {
   formatEther,
   AlchemyProvider,
   parseEther,
+  Contract,
+  parseUnits,
 } from "ethers";
 import axios from "axios";
 import { COVALENT_API_KEY } from "@env";
@@ -104,5 +106,44 @@ export const getTransactions = async (privateKey: string) => {
   } catch (err) {
     console.error("Failed to fetch transactions:", err);
     return [];
+  }
+};
+
+// Standard ERC-20 ABI (just the essentials we need)
+const ERC20_ABI = [
+  "function transfer(address to, uint256 value) returns (bool)",
+  "function decimals() view returns (uint8)",
+];
+
+const provider = new AlchemyProvider(
+  "sepolia",
+  "svEoaVYaL6yFL6Yjq9OiETXIVu39pnnf"
+);
+
+export const sendERC20Token = async (
+  privateKey: string,
+  tokenAddress: string,
+  toAddress: string,
+  amount: string
+): Promise<{ success: boolean; txHash?: string; error?: string }> => {
+  try {
+    const wallet = new Wallet(privateKey, provider);
+    const contract = new Contract(tokenAddress, ERC20_ABI, wallet);
+
+    // Get token decimals
+    const decimals = await contract.decimals();
+    const parsedAmount = parseUnits(amount, decimals);
+
+    // Send transaction
+    const tx = await contract.transfer(toAddress, parsedAmount);
+    await tx.wait();
+
+    return { success: true, txHash: tx.hash };
+  } catch (error: any) {
+    console.error("Send ERC20 error:", error);
+    return {
+      success: false,
+      error: error?.reason || error?.message || "Unknown error",
+    };
   }
 };

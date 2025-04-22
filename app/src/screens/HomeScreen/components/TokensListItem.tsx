@@ -1,10 +1,10 @@
-import { StyleSheet, Image, View } from "react-native";
+import { StyleSheet, Image, View, Pressable } from "react-native";
 import React from "react";
 import AppText from "@/components/ui/AppText";
 
-const TokensListItem = ({ item }: any) => {
+const TokensListItem = ({ item, onPress }: any) => {
   return (
-    <View style={styles.card}>
+    <Pressable onPress={() => onPress(item)} style={styles.card}>
       <Image
         source={
           item.logo?.includes("logos")
@@ -21,7 +21,7 @@ const TokensListItem = ({ item }: any) => {
         </AppText>
       </View>
       <AppText weight="medium">{item.balance.toFixed(4)}</AppText>
-    </View>
+    </Pressable>
   );
 };
 

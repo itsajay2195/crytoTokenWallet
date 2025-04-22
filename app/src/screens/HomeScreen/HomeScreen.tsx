@@ -6,13 +6,18 @@ import {
   View,
 } from "react-native";
 import React, { useCallback, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import WalletCard from "./components/WalletCard";
 import IConComponent from "../../components/common/IconComponent";
 import { sendETH } from "@/services/wallet";
 import AppText from "@/components/ui/AppText";
 import TokensListItem from "./components/TokensListItem";
 import { useIsFocused } from "@react-navigation/native";
+import {
+  SEND_ERC_TOKENS_SCREEN,
+  SEND_TOKENS_SCREEN,
+} from "@/constants/screenConstants";
+import { setTokenInfo } from "@/store/slices/sendErcTokenSlice";
 
 const ListItem = ({ item, onPress }: any) => (
   <TouchableOpacity
@@ -48,6 +53,7 @@ const listData = [
 ];
 const HomeScreen = ({ navigation }: any) => {
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
   const { address, balance } = useSelector(
     (state: any) => state.wallet.walletData
   );
@@ -57,13 +63,20 @@ const HomeScreen = ({ navigation }: any) => {
     navigation?.navigate(screenName);
   }, []);
 
-  // console.log("walletInfo>>>", walletInfo);
   const renderItem = ({ item }: any) => (
     <ListItem item={item} onPress={onPress} />
   );
 
+  const onTokenItemPress = useCallback((item: any) => {
+    if (item.symbol === "ETH") {
+      navigation.navigate(SEND_TOKENS_SCREEN);
+    } else {
+      navigation.navigate(SEND_ERC_TOKENS_SCREEN);
+      dispatch(setTokenInfo(item));
+    }
+  }, []);
   const tokenListRenderItem = useCallback(({ item }: any) => {
-    return <TokensListItem item={item} />;
+    return <TokensListItem item={item} onPress={onTokenItemPress} />;
   }, []);
 
   return (
